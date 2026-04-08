@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 216 41% 11%;     /* #111928 - Dark Navy Background */
+    --foreground: 210 40% 98%;     /* White text */
+    --card: 215 28% 17%;           /* #1f2937 - Card background */
+    --card-foreground: 210 40% 98%;
+    --popover: 216 41% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 78 100% 47%;        /* #9fef00 - HTB Neon Green */
+    --primary-foreground: 216 41% 11%; /* Dark text on primary */
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 215 28% 17%;
+    --muted-foreground: 215 16% 65%; /* Grey text */
+    --accent: 78 100% 47%;
+    --accent-foreground: 216 41% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 215 19% 27%;         /* #374151 - Subtle borders */
+    --input: 215 19% 27%;
+    --ring: 78 100% 47%;
+    --radius: 0.5rem;              /* HTB uses slightly sharper corners */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbar - Dark mode */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Soft, dark shadow for primary elements */
+.soft-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+/* HTB Background Grid */
+.hero-gradient {
+  background-color: hsl(var(--background));
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Card hover effect - Clean lift */
+.card-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  border-color: hsl(var(--primary) / 0.5);
+}
+
+/* HTB accent effect */
+.htb-accent {
+  background: linear-gradient(135deg, hsl(78 100% 47%), hsl(78 100% 35%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
