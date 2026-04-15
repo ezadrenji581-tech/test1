@@ -291,12 +291,30 @@ export function Courses() {
             </div>
             
             {user?.role === 'admin' && (
-              <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => {
-                setCurrentCourse({ title: '', description: '', category: 'Web', level: 'Beginner', image: '', modules: [{ title: '', content: '', slideUrl: '' }] });
-                setIsEditing(true);
-              }}>
-                <Plus className="w-5 h-5 mr-2" /> Tambah Kursus
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="lg" onClick={async () => {
+                  try {
+                    const resp = await fetch(getApiUrl('/courses/seed'), {
+                      method: 'POST',
+                      headers: { 'Authorization': `Bearer ${user?.token}` }
+                    });
+                    if (resp.ok) {
+                      toast.success('Modul asal telah dipulihkan');
+                      fetchCourses();
+                    }
+                  } catch (err) {
+                    toast.error('Gagal memulihkan modul');
+                  }
+                }}>
+                  Pulihkan 7 Modul Asal
+                </Button>
+                <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => {
+                  setCurrentCourse({ title: '', description: '', category: 'Web', level: 'Beginner', image: '', modules: [{ title: '', content: '', slideUrl: '' }] });
+                  setIsEditing(true);
+                }}>
+                  <Plus className="w-5 h-5 mr-2" /> Tambah Kursus
+                </Button>
+              </div>
             )}
           </div>
 

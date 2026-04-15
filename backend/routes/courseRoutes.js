@@ -99,4 +99,31 @@ router.delete('/:id', protect, admin, async (req, res) => {
   }
 });
 
+// @desc    Seed default courses
+// @route   POST /api/courses/seed
+// @access  Private/Admin
+router.post('/seed', protect, admin, async (req, res) => {
+  const originalCourses = [
+    { title: 'Web', description: 'Main battlefield', category: 'Web', level: 'Beginner', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'OSINT', description: 'Intel phase', category: 'OSINT', level: 'Beginner', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'Forensics', description: 'Detection & investigation', category: 'Forensic', level: 'Intermediate', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'Crypto', description: 'Secure systems', category: 'Crypto', level: 'Advanced', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'Reverse', description: 'Deep technical', category: 'Reverse', level: 'Advanced', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'Analysis', description: 'SOC defense', category: 'Misc/Puzzle', level: 'Intermediate', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+    { title: 'Misc', description: 'Puzzle', category: 'Misc/Puzzle', level: 'Beginner', modules: [{ title: 'Intro', content: 'Asas', slideUrl: '' }] },
+  ];
+
+  try {
+    for (const courseData of originalCourses) {
+      const exists = await Course.findOne({ title: courseData.title });
+      if (!exists) {
+        await Course.create({ ...courseData, author: req.user._id });
+      }
+    }
+    res.json({ message: 'Modul asal berjaya dipulihkan' });
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal memulihkan modul', error: error.message });
+  }
+});
+
 export default router;
