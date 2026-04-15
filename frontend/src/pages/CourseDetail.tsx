@@ -11,6 +11,7 @@ interface Module {
   title: string;
   content: string;
   slideUrl: string;
+  videoUrl?: string; // For backward compatibility
 }
 
 interface Course {
@@ -36,8 +37,8 @@ export function CourseDetail() {
           const data = await response.json();
           setCourse(data);
           if (data.modules && data.modules.length > 0) {
-            const firstModule = data.modules[0];
-            setActiveSlide(firstModule.slideUrl || (firstModule as any).videoUrl);
+            const firstModule = data.modules[0] as Module;
+            setActiveSlide(firstModule.slideUrl || firstModule.videoUrl || null);
           }
         }
       } catch (error) {
@@ -53,12 +54,11 @@ export function CourseDetail() {
   const getEmbedUrl = (url: string) => {
     if (!url) return '';
     if (url.includes('docs.google.com/presentation')) {
-      let embedUrl = url.split('/edit')[0];
+      const embedUrl = url.split('/edit')[0];
       return !embedUrl.endsWith('/embed') ? `${embedUrl}/embed` : embedUrl;
     }
     if (url.includes('docs.google.com/document')) {
-      // Convert share link to preview/embed link for Google Docs
-      let embedUrl = url.split('/edit')[0];
+      const embedUrl = url.split('/edit')[0];
       return !embedUrl.endsWith('/preview') ? `${embedUrl}/preview` : embedUrl;
     }
     return url;
@@ -172,12 +172,12 @@ export function CourseDetail() {
                           <h3 className="text-lg font-semibold text-foreground">
                             {module.title}
                           </h3>
-                          {(module.slideUrl || (module as any).videoUrl) && (
+                          {(module.slideUrl || module.videoUrl) && (
                              <Button 
                                variant="ghost" 
                                size="sm" 
-                               className={`text-xs ${activeSlide === (module.slideUrl || (module as any).videoUrl) ? 'text-primary' : ''}`}
-                               onClick={() => setActiveSlide(module.slideUrl || (module as any).videoUrl)}
+                               className={`text-xs ${activeSlide === (module.slideUrl || module.videoUrl) ? 'text-primary' : ''}`}
+                               onClick={() => setActiveSlide(module.slideUrl || module.videoUrl || null)}
                              >
                                Buka Slaid
                              </Button>
