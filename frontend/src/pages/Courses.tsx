@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Loader2, Edit, Trash2, Plus, Save, X, Package, AlertCircle } from 'lucide-react';
+import { ArrowRight, BookOpen, Loader2, Edit, Trash2, Plus, Save, X, Package, AlertCircle, Presentation } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,7 +13,7 @@ import { toast } from 'sonner';
 interface Module {
   title: string;
   content: string;
-  videoUrl: string;
+  slideUrl: string;
 }
 
 interface Course {
@@ -31,7 +31,6 @@ export function Courses() {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   
-  // States for Editing
   const [isEditing, setIsEditing] = useState(false);
   const [currentCourse, setCurrentCourse] = useState<Partial<Course>>({
     title: '',
@@ -39,7 +38,7 @@ export function Courses() {
     category: 'Web',
     level: 'Beginner',
     image: '',
-    modules: [{ title: '', content: '', videoUrl: '' }]
+    modules: [{ title: '', content: '', slideUrl: '' }]
   });
 
   useEffect(() => {
@@ -91,7 +90,7 @@ export function Courses() {
   const handleAddModule = () => {
     setCurrentCourse({
       ...currentCourse,
-      modules: [...(currentCourse.modules || []), { title: '', content: '', videoUrl: '' }]
+      modules: [...(currentCourse.modules || []), { title: '', content: '', slideUrl: '' }]
     });
   };
 
@@ -245,11 +244,16 @@ export function Courses() {
                           value={mod.content}
                           onChange={(e) => handleModuleChange(idx, 'content', e.target.value)}
                         />
-                        <Input 
-                          placeholder="Pautan Video (YouTube/Vimeo)" 
-                          value={mod.videoUrl}
-                          onChange={(e) => handleModuleChange(idx, 'videoUrl', e.target.value)}
-                        />
+                        <div className="space-y-1">
+                           <label className="text-xs text-muted-foreground flex items-center gap-1">
+                             <Presentation className="w-3 h-3" /> Pautan Google Slide (Gunakan pautan 'Embed' atau 'Share')
+                           </label>
+                           <Input 
+                             placeholder="Ex: https://docs.google.com/presentation/d/..." 
+                             value={mod.slideUrl}
+                             onChange={(e) => handleModuleChange(idx, 'slideUrl', e.target.value)}
+                           />
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -282,13 +286,13 @@ export function Courses() {
                 Senarai Modul Pembelajaran
               </h1>
               <p className="text-muted-foreground max-w-2xl">
-                Setiap modul mengandungi video pembelajaran dan kandungan yang komprehensif.
+                Setiap modul mengandungi pautan slaid pembelajaran dan kandungan yang komprehensif.
               </p>
             </div>
             
             {user?.role === 'admin' && (
               <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => {
-                setCurrentCourse({ title: '', description: '', category: 'Web', level: 'Beginner', image: '', modules: [{ title: '', content: '', videoUrl: '' }] });
+                setCurrentCourse({ title: '', description: '', category: 'Web', level: 'Beginner', image: '', modules: [{ title: '', content: '', slideUrl: '' }] });
                 setIsEditing(true);
               }}>
                 <Plus className="w-5 h-5 mr-2" /> Tambah Kursus
@@ -348,7 +352,6 @@ export function Courses() {
                     </Card>
                   </Link>
 
-                  {/* Admin Actions Overlay */}
                   {user?.role === 'admin' && (
                     <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
                       <Button 

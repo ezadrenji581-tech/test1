@@ -4,12 +4,13 @@ import { ArrowLeft, Shield, Presentation, BookOpen, Loader2 } from 'lucide-react
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { getApiUrl } from '@/lib/api';
 
 interface Module {
   title: string;
   content: string;
-  videoUrl: string;
+  slideUrl: string;
 }
 
 interface Course {
@@ -24,7 +25,7 @@ export function CourseDetail() {
   const { id } = useParams<{ id: string }>();
   const [course, setCourse] = useState<Course | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+  const [activeSlide, setActiveSlide] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -34,9 +35,8 @@ export function CourseDetail() {
         if (response.ok) {
           const data = await response.json();
           setCourse(data);
-          // Set first module video as active if exists
           if (data.modules && data.modules.length > 0) {
-            setActiveVideo(data.modules[0].videoUrl);
+            setActiveSlide(data.modules[0].slideUrl);
           }
         }
       } catch (error) {
@@ -48,6 +48,19 @@ export function CourseDetail() {
 
     fetchCourse();
   }, [id]);
+
+  const getEmbedUrl = (url: string) => {
+    if (!url) return '';
+    if (url.includes('docs.google.com/presentation')) {
+      // Convert share link to embed link
+      let embedUrl = url.split('/edit')[0];
+      if (!embedUrl.endsWith('/embed')) {
+        embedUrl = `${embedUrl}/embed`;
+      }
+      return embedUrl;
+    }
+    return url;
+  };
 
   if (loading) {
     return (
@@ -101,22 +114,32 @@ export function CourseDetail() {
             </div>
           </div>
 
-          {activeVideo && (
+          {activeSlide && (
             <div className="mb-10">
               <div className="flex items-center gap-2 mb-4">
                 <Presentation className="w-5 h-5 text-primary" />
                 <h2 className="text-xl font-semibold text-foreground">
-                  Video Pembelajaran
+                  Slaid Pembelajaran
                 </h2>
               </div>
               
               <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border bg-card shadow-lg">
                 <iframe
-                  src={activeVideo.includes('youtube.com/watch?v=') ? activeVideo.replace('watch?v=', 'embed/') : activeVideo}
+                  src={getEmbedUrl(activeSlide)}
                   className="absolute inset-0 w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+              </div>
+              
+              <div className="mt-4 flex justify-end">
+                <a 
+                  href={activeSlide} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs text-primary hover:underline flex items-center gap-1"
+                >
+                  <Presentation className="w-3 h-3" /> Buka Slaid di Tab Baru
+                </a>
               </div>
             </div>
           )}
@@ -133,7 +156,7 @@ export function CourseDetail() {
               {course.modules.map((module, index) => (
                 <Card
                   key={index}
-                  className={`bg-card/50 border-border/50 overflow-hidden transition-all ${activeVideo === module.videoUrl ? 'border-primary/50 ring-1 ring-primary/20' : ''}`}
+                  className={`bg-card/50 border-border/50 overflow-hidden transition-all ${activeSlide === module.slideUrl ? 'border-primary/50 ring-1 ring-primary/20' : ''}`}
                 >
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row md:items-start gap-4">
@@ -147,14 +170,14 @@ export function CourseDetail() {
                           <h3 className="text-lg font-semibold text-foreground">
                             {module.title}
                           </h3>
-                          {module.videoUrl && (
+                          {module.slideUrl && (
                              <Button 
                                variant="ghost" 
                                size="sm" 
-                               className={`text-xs ${activeVideo === module.videoUrl ? 'text-primary' : ''}`}
-                               onClick={() => setActiveVideo(module.videoUrl)}
+                               className={`text-xs ${activeSlide === module.slideUrl ? 'text-primary' : ''}`}
+                               onClick={() => setActiveSlide(module.slideUrl)}
                              >
-                               Tonton Video
+                               Buka Slaid
                              </Button>
                           )}
                         </div>

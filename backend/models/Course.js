@@ -27,7 +27,7 @@ const courseSchema = new mongoose.Schema({
     {
       title: String,
       content: String,
-      videoUrl: String,
+      slideUrl: String,
     }
   ],
   author: {
