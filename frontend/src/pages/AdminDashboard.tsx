@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Layout, BookOpen, Video, Save, X, ChevronRight, Package, AlertCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, Layout, BookOpen, Video, Save, X, ChevronRight, Package, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -252,6 +252,10 @@ export function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-6 pt-24 space-y-8">
+        <Link to="/" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-colors group">
+          <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+          Kembali ke Halaman Utama
+        </Link>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 className="text-4xl font-bold tracking-tight">Admin Dashboard</h1>

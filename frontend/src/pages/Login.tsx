@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Shield, User, Lock, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
+import { Shield, User, Lock, Eye, EyeOff, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -90,7 +90,11 @@ export function Login() {
       {/* Simple header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center h-16">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors group">
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+              <span className="hidden sm:inline">Kembali</span>
+            </Link>
             <Link to="/" className="flex items-center gap-2 group">
               <Shield className="w-8 h-8 text-primary transition-transform group-hover:scale-110" />
               <span className="text-xl font-bold">
