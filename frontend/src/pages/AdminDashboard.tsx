@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Layout, BookOpen, Video, Save, X, ChevronRight, Package, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Plus, Edit, Trash2, BookOpen, Save, X, Package, AlertCircle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { getApiUrl } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
@@ -49,6 +49,7 @@ export function AdminDashboard() {
       const data = await resp.json();
       setCourses(data);
     } catch (err) {
+      console.error(err);
       toast.error('Gagal memuatkan kursus');
     } finally {
       setLoading(false);
@@ -97,8 +98,9 @@ export function AdminDashboard() {
         const errorData = await resp.json();
         throw new Error(errorData.message);
       }
-    } catch (err: any) {
-      toast.error(err.message || 'Gagal menyimpan kursus');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Gagal menyimpan kursus';
+      toast.error(message);
     }
   };
 
@@ -118,6 +120,7 @@ export function AdminDashboard() {
         fetchCourses();
       }
     } catch (err) {
+      console.error(err);
       toast.error('Gagal memadam kursus');
     }
   };
