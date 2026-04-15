@@ -36,7 +36,8 @@ export function CourseDetail() {
           const data = await response.json();
           setCourse(data);
           if (data.modules && data.modules.length > 0) {
-            setActiveSlide(data.modules[0].slideUrl);
+            const firstModule = data.modules[0];
+            setActiveSlide(firstModule.slideUrl || (firstModule as any).videoUrl);
           }
         }
       } catch (error) {
@@ -170,12 +171,12 @@ export function CourseDetail() {
                           <h3 className="text-lg font-semibold text-foreground">
                             {module.title}
                           </h3>
-                          {module.slideUrl && (
+                          {(module.slideUrl || (module as any).videoUrl) && (
                              <Button 
                                variant="ghost" 
                                size="sm" 
-                               className={`text-xs ${activeSlide === module.slideUrl ? 'text-primary' : ''}`}
-                               onClick={() => setActiveSlide(module.slideUrl)}
+                               className={`text-xs ${activeSlide === (module.slideUrl || (module as any).videoUrl) ? 'text-primary' : ''}`}
+                               onClick={() => setActiveSlide(module.slideUrl || (module as any).videoUrl)}
                              >
                                Buka Slaid
                              </Button>
