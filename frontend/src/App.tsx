@@ -4,11 +4,13 @@ import { Courses } from '@/pages/Courses';
 import { CourseDetail } from '@/pages/CourseDetail';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
+import { AdminDashboard } from '@/pages/AdminDashboard';
 import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from 'sonner';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminRoute } from './components/AdminRoute';
 
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
@@ -27,6 +29,11 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/courses" element={<Courses />} />
               <Route path="/course/:id" element={<CourseDetail />} />
+            </Route>
+
+            {/* Admin Routes */}
+            <Route element={<AdminRoute />}>
+              <Route path="/admin" element={<AdminDashboard />} />
             </Route>
           </Routes>
         </HashRouter>

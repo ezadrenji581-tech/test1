@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth.js';
+import courseRoutes from './routes/courseRoutes.js';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
 
 app.get('/', (req, res) => {
   res.send('API CyberEdu is running...');

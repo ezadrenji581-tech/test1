@@ -47,6 +47,16 @@ export function Navbar() {
             >
               Kursus
             </Link>
+            {user?.role === 'admin' && (
+              <Link
+                to="/admin"
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive('/admin') ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
           </div>
 
           {/* Auth Button */}
