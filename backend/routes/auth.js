@@ -6,8 +6,15 @@ import mongoose from 'mongoose';
 import User from '../models/User.js';
 import { findUserByEmail, createUser, updateUser } from '../lib/db.js';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const router = express.Router();
+
+const getGoogleClient = () => {
+    const id = process.env.GOOGLE_CLIENT_ID;
+    if (!id) {
+        console.error('CRITICAL: GOOGLE_CLIENT_ID is not defined in environment variables!');
+    }
+    return new OAuth2Client(id);
+};
 
 const isMongoConnected = () => mongoose.connection.readyState === 1;
 
@@ -20,6 +27,7 @@ const generateToken = (id) => {
 router.post('/google-login', async (req, res) => {
   try {
     const { token } = req.body;
+    const client = getGoogleClient();
     const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -53,7 +61,8 @@ router.post('/google-login', async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    res.status(401).json({ message: 'Log masuk Google gagal', error: error.message });
+    console.error('Google Login Backend Error:', error.message);
+    res.status(401).json({ message: 'Log masuk Google gagal di backend', error: error.message });
   }
 });
 

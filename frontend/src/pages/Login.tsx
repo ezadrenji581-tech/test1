@@ -121,7 +121,7 @@ export function Login() {
                 <GoogleLogin
                   onSuccess={handleGoogleSuccess}
                   onError={handleGoogleError}
-                  useOneTap
+                  useOneTap={false}
                   theme="filled_blue"
                   shape="pill"
                   width="100%"
