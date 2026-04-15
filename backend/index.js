@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
   'http://localhost:5173',           // Untuk testing lokal
-  'https://test1-zeta-liart-83.vercel.app/' // URL Vercel anda
+  'https://test1-zeta-liart-83.vercel.app' // URL Vercel anda
 ];
 
 app.use(cors({
