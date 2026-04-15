@@ -8,6 +8,8 @@ import { AuthProvider } from '@/context/AuthContext';
 import { Toaster } from 'sonner';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
+import { ProtectedRoute } from './components/ProtectedRoute';
+
 function App() {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
@@ -16,14 +18,19 @@ function App() {
       <AuthProvider>
         <HashRouter>
           <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/course/:id" element={<CourseDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </HashRouter>
-      <Toaster position="top-center" richColors />
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Private Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/course/:id" element={<CourseDetail />} />
+            </Route>
+          </Routes>
+        </HashRouter>
+        <Toaster position="top-center" richColors />
       </AuthProvider>
     </GoogleOAuthProvider>
   );

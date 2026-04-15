@@ -3,15 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "vite",
-    "dev:server": "nodemon server/index.js",
-    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev\"",
-    "register-user": "node server/createUser.js",
-    "seed": "node server/seeder.js",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "register-user": "node backend/createUser.js",
+    "build": "npm run build --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "preview": "npm run preview --prefix frontend"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

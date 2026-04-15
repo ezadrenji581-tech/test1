@@ -50,7 +50,6 @@ export function CourseDetail() {
             </div>
           </div>
 
-          {/* Slide section */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-4">
               <Presentation className="w-5 h-5 text-primary" />
@@ -58,15 +57,37 @@ export function CourseDetail() {
                 Slaid Pembelajaran
               </h2>
             </div>
-            <a
-              href={course.slideUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors w-full sm:w-auto justify-center"
-            >
-              <Presentation className="w-5 h-5" />
-              <span className="font-medium">Buka Slaid Pembelajaran</span>
-            </a>
+            
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-border bg-card shadow-lg">
+              {course.slideUrl.includes('youtube.com') || course.slideUrl.includes('youtu.be') ? (
+                <iframe
+                  src={course.slideUrl}
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : course.slideUrl.includes('docs.google.com') ? (
+                <iframe
+                  src={course.slideUrl.replace('/edit', '/embed').replace('?usp=sharing', '')}
+                  className="absolute inset-0 w-full h-full"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full p-8 text-center text-muted-foreground">
+                  <Presentation className="w-12 h-12 mb-4 opacity-20" />
+                  <p>Sila klik butang di bawah untuk membuka slaid</p>
+                  <a
+                    href={course.slideUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+                  >
+                    <Presentation className="w-5 h-5" />
+                    <span className="font-medium">Buka Slaid</span>
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Content sections */}
