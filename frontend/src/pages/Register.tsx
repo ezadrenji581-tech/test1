@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
+import { getApiUrl } from '@/lib/api';
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +39,7 @@ export function Register() {
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch(getApiUrl('/auth/register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

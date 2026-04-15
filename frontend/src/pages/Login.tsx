@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 import { GoogleLogin } from '@react-oauth/google';
+import { getApiUrl } from '@/lib/api';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +25,7 @@ export function Login() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/auth/google-login', {
+      const response = await fetch(getApiUrl('/auth/google-login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ export function Login() {
     setError(null);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(getApiUrl('/auth/login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
