@@ -121,7 +121,7 @@ export function CourseDetail() {
               <div className="flex items-center gap-2 mb-4">
                 <Presentation className="w-5 h-5 text-primary" />
                 <h2 className="text-xl font-semibold text-foreground">
-                  Nota / Dokumen Pembelajaran
+                  Slaid Pembelajaran
                 </h2>
               </div>
               
@@ -140,7 +140,7 @@ export function CourseDetail() {
                   rel="noopener noreferrer"
                   className="text-xs text-primary hover:underline flex items-center gap-1"
                 >
-                  <Presentation className="w-3 h-3" /> Buka Dokumen di Tab Baru
+                  <Presentation className="w-3 h-3" /> Buka Slaid di Tab Baru
                 </a>
               </div>
             </div>
@@ -179,7 +179,7 @@ export function CourseDetail() {
                                className={`text-xs ${activeSlide === (module.slideUrl || (module as any).videoUrl) ? 'text-primary' : ''}`}
                                onClick={() => setActiveSlide(module.slideUrl || (module as any).videoUrl)}
                              >
-                               Buka Nota
+                               Buka Slaid
                              </Button>
                           )}
                         </div>

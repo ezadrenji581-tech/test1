@@ -246,10 +246,10 @@ export function Courses() {
                         />
                         <div className="space-y-1">
                            <label className="text-xs text-muted-foreground flex items-center gap-1">
-                             <Presentation className="w-3 h-3" /> Pautan Google Doc (Gunakan pautan 'Share')
+                             <Presentation className="w-3 h-3" /> Pautan Google Slide (Gunakan pautan 'Share')
                            </label>
                            <Input 
-                             placeholder="Ex: https://docs.google.com/document/d/..." 
+                             placeholder="Ex: https://docs.google.com/presentation/d/..." 
                              value={mod.slideUrl}
                              onChange={(e) => handleModuleChange(idx, 'slideUrl', e.target.value)}
                            />
@@ -286,7 +286,7 @@ export function Courses() {
                 Senarai Modul Pembelajaran
               </h1>
               <p className="text-muted-foreground max-w-2xl">
-                Setiap modul mengandungi pautan nota / dokumen pembelajaran dan kandungan yang komprehensif.
+                Setiap modul mengandungi pautan slaid pembelajaran dan kandungan yang komprehensif.
               </p>
             </div>
             
